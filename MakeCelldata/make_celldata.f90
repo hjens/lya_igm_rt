@@ -9,16 +9,12 @@ real*8 :: redshift, tmp
 character(len=256) :: xfile, dfile, vfile, outfile
 integer :: i, xd, yd, zd
 
-!Cosmological and simulation stuff
-integer, parameter :: n_box = 10976
-real*8, parameter :: boxsize=425.
+!Cosmological constants
 real*8, parameter :: h=0.7
-real*8, parameter ::  LB = boxsize/h
 real*8, parameter ::  H0=100.0*h
 real*8, parameter ::  Omega0 = 0.27
 real*8, parameter ::  OmegaB = 0.044
 real*8, parameter ::  Mpc=1.e6*3.086e18
-real*8, parameter :: lscale = LB/dble(n_box)*Mpc
 real*8, parameter :: tscale = 2.0/(3.0*sqrt(Omega0)*H0/Mpc*1.e5)
 real*8, parameter :: rho_crit_0 = 9.2034676577211722e-30
 real*8, parameter :: m_p=1.672661e-24 
@@ -31,22 +27,32 @@ real*8, parameter :: lam = 1.0 - Omega0
 real*4, parameter :: T4 = 1 !Temperature/10^4K
 real*4, parameter :: Temp = 1e4 !Temperature in K
 real*4, parameter :: Dnu = 1.0566e11*sqrt(T4) !Doppler width
-real*4,  parameter ::D_box = LB*1.e3
 real*8 :: velconvert
 real*8 :: Hz !Redshift dependent Hubble parameter
 real*8 :: dx, dy, dz
 
-namelist /settings/ xfile, dfile, vfile, redshift, outfile
+!Simulation parameters
+integer :: n_box
+real*8 :: boxsize
+real*8 ::  LB
+real*8 :: lscale
+real*4  ::D_box
 
-!Read filenames to use
-open(unit=1, file='settings.txt', form='formatted', status='old')
-read(1, nml=settings, iostat=ierr)
+namelist /parameters/ xfile, dfile, vfile, redshift, outfile, &
+        n_box, boxsize
+
+!Read filenames and simluation paramters
+open(unit=1, file='make_cell_data_parameters.txt', form='formatted', status='old')
+read(1, nml=parameters, iostat=ierr)
 close(1)
 
 print*, 'The redshift is', redshift
 print*, 'Do not forget to set this in settings.txt'
 
 Hz = H0*sqrt(Omega0*(1.0+redshift)**3 + lam)
+LB = boxsize/h
+lscale = LB/dble(n_box)*Mpc
+D_box = LB*1.e3
 
 !Read ionized fractions, store in xi for now. Later in neutral_frac
 print*, 'Reading neutral fractions...'
