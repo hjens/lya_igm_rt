@@ -1,5 +1,6 @@
 import os
 import subprocess
+import shutil
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -29,8 +30,29 @@ def get_default_params():
                 omega_0=0.73,
                 los_dir='x',
                 n_box=10976,
-                boxsize=425.
+                boxsize=425.,
+                overwrite_output=False
                 )
+
+
+def prepare_output_dir(params_dict):
+    """
+    Create output dir if it does not
+    exist. If overwrite_output is true,
+    delete everything in it.
+
+    :param params_dict: Dictionary containing parameters
+    """
+    if not os.path.exists(params_dict['output_dir']):
+        print 'Output dir does not exist. Creating.'
+        os.mkdir(params_dict['output_dir'])
+
+    dir_is_empty = (os.listdir(params_dict['output_dir']) == [])
+    if not dir_is_empty and params_dict['overwrite_output']:
+        print 'Output dir is not empty, and overwrite is\
+                set to true. Deleting contents'
+        shutil.rmtree(params_dict['output_dir'])
+        os.mkdir(params_dict['output_dir'])  # rmtree deletes the directory as well
 
 
 def run_make_celldata(params_dict):
@@ -60,13 +82,15 @@ def run_full_pipeline(params_dict):
     pass
 
 
-def read_params_from_file(params_file):
+def read_params_from_file(params_file, add_defaults=True):
     """
     Read simulation paramers from a file and
     return them as a dictionary. Also check
     that all the required keys are present
 
     :param params_file: The file containing the parameters
+    :param add_defaults: If true, fill in missing parameters with
+    default values
     :return: A dictionary with the parameters
     """
     # Read parameters from the file
@@ -82,6 +106,9 @@ def read_params_from_file(params_file):
     for k in default_params.keys():
         if k not in params_dict.keys():
             print 'Warning! Key', k, 'not present in file'
+            if add_defaults:
+                print 'Adding default value'
+                params_dict[k] = default_params[k]
     # Check if bad keys are present
     for k in params_dict.keys():
         if k not in default_params.keys():
@@ -149,4 +176,5 @@ def write_simpletransfer_config(params_dict):
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
+    prepare_output_dir()
     run_make_celldata(params)
