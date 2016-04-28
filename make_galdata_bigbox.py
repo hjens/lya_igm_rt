@@ -3,36 +3,54 @@ import os
 import c2raytools as sim
 import sys
 sys.path.append('/home/hjens/workspace/LyA_bigbox/src')
-import halofile_tools as lya
 #import lya_tools as lya
+
+def get_halo_shifts(z, shifts_file=None):
+    '''
+    Return the random offsets for the halo files
+    '''
+    
+    #if shifts_file == None: 
+        #shifts_file = common_paths.bigbox_shifts_file
+    shifts = np.loadtxt(shifts_file)
+    shifts_z = shifts[:,0]
+    idx = np.argmin(np.abs(shifts_z-z))
+    return shifts[idx,1:]
+
 
 sim.conv.set_sim_constants(425.)
 
 #Read the config file, selection critera
 selection_criteria = {}
-f = open('/home/hjens/LyA_bigbox/halo_criteria.txt', 'r')
+#f = open('/home/hjens/LyA_bigbox/halo_criteria.txt', 'r') #!!!!!!!
+f = open('halo_criteria.txt', 'r')
 for line in f.readlines():
-	selection_criteria[line.split('=')[0].strip()] = float(line.split('=')[1].strip())
+    selection_criteria[line.split('=')[0].strip()] = float(line.split('=')[1].strip())
 f.close()
 
 
 
-outfile = 'halos.dat'
+#outfile = 'halos.dat' #!!!!!!!!
+outfile = '/disk/dawn-1/hjens/make_galdata_test/halos_old.dat'
 min_mass = selection_criteria['min_mass']#1e10
 max_mass = selection_criteria['max_mass']#3e10
 max_number = selection_criteria['max_number']#30
 print 'Min mass = ', min_mass
 print 'Max mass = ', max_mass
 print 'Max number = ', max_number
-settingsfile = open('/home/hjens/LyA_bigbox/settings.txt', 'r')
-z = float(settingsfile.readlines()[5].split('=')[1])
-settingsfile.close()
-infile = '/home/hjens/links/c2ray/425Mpc_WMAP5/halos/%.3fhalo.dat' % z
+
+#settingsfile = open('/home/hjens/LyA_bigbox/settings.txt', 'r')
+#z = float(settingsfile.readlines()[5].split('=')[1])
+#settingsfile.close()
+z = 8.064
+
+#infile = '/home/hjens/links/c2ray/425Mpc_WMAP5/halos/%.3fhalo.dat' % z
+infile = '/disk/dawn-1/garrelt/Reionization/C2Ray_WMAP5/425Mpc_WMAP5/halos/%.3fhalo.dat' % z
 if not os.path.exists(infile):
-	print 'File ', infile, ' does not exist, looking in local instead'
-	#infile = '/home/hjens/links/local/ranger_halos/%.3fhalo.dat' % z
-	#infile = '/home/hjens/links/local/slask/bigbox_halos_unshifted/%.3fhalo.dat' % z
-	infile = '/disk/sn-12/hjens/Halolistsbin_425/%.3fhalo.dat' % z
+    print 'File ', infile, ' does not exist, looking in local instead'
+    #infile = '/home/hjens/links/local/ranger_halos/%.3fhalo.dat' % z
+    #infile = '/home/hjens/links/local/slask/bigbox_halos_unshifted/%.3fhalo.dat' % z
+    infile = '/disk/sn-12/hjens/Halolistsbin_425/%.3fhalo.dat' % z
 
 #Conversion stuff. IGMtransfer needs everything in PROPER coordinates
 pbox = sim.conv.LB/(1.+z) #Box length in proper coordinates
@@ -48,15 +66,16 @@ print 'LB ', sim.conv.LB
 
 #For testing
 def mvir(r, sigma):
-	'''virial mass in solar masses for r kpc, sigma km/s '''
-	return (5 * (sigma*1.e3)**2 * r*3.08568025e19 / 6.67e-11 ) / 1.989e30
+    '''virial mass in solar masses for r kpc, sigma km/s '''
+    return (5 * (sigma*1.e3)**2 * r*3.08568025e19 / 6.67e-11 ) / 1.989e30
 
 #Read input file
 hlist = sim.HaloList(infile, min_mass, max_select_mass = max_mass, max_select_number=max_number)
 print 'Read ', len(hlist.halos), ' haloes with mass greater than ', min_mass, ' solar masses.'
 
 #Read halo offsets
-shifts = lya.get_halo_shifts(z)
+shifts_file = '/disk/dawn-1/garrelt/Reionization/C2Ray_WMAP5/425Mpc_WMAP5/halos/random_offsets_final.dat'
+shifts = get_halo_shifts(z, shifts_file=shifts_file)
 
 #Convert to arrays
 x_pos = gridpos_to_kpc(np.array([h.pos[0]-shifts[0] for h in hlist.halos]))
@@ -89,7 +108,7 @@ y_vel = np.delete(y_vel, rem[0])
 z_vel = np.delete(z_vel, rem[0])
 mass = np.delete(mass, rem[0])
 print np.where(z_pos > cube_side)
----
+#---
 
 
 #Convert velocity to account for expansion
@@ -109,8 +128,8 @@ file.write('#-------------------------------------------------------------------
 file.write('#kpc \t kpc \t kpc \t kpc \t km/s \t km/s \t km/s \t log10(solar mass)\n')
 file.write('#----------------------------------------------------------------------\n')
 for i in xrange(len(x_pos)):
-	file.write('%.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f\n' % 
-	(x_pos[i], y_pos[i], z_pos[i], radii[i], x_vel[i], y_vel[i], z_vel[i], np.log10(mass[i])))
+    file.write('%.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f \t %.5f\n' % 
+    (x_pos[i], y_pos[i], z_pos[i], radii[i], x_vel[i], y_vel[i], z_vel[i], np.log10(mass[i])))
 
 file.close()
 

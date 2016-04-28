@@ -29,3 +29,7 @@
 
 # Vim
 *.swp
+
+# Misc
+MakeCelldata/make_cell_data_parameters.txt
+*.x

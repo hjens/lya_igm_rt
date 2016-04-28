@@ -176,5 +176,5 @@ def write_simpletransfer_config(params_dict):
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
-    prepare_output_dir()
+    prepare_output_dir(params)
     run_make_celldata(params)
