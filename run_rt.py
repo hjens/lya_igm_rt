@@ -54,7 +54,11 @@ def read_params_from_file(params_file):
     default_params = get_default_params()
     for k in default_params.keys():
         if k not in params_dict.keys():
-            print 'Warning! Key', k, ' not present in file'
+            print 'Warning! Key', k, 'not present in file'
+    # Check if bad keys are present
+    for k in params_dict.keys():
+        if k not in default_params.keys():
+            print 'Warning! Key', k, 'will be ignored'
     return params_dict
 
 
