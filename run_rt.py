@@ -1,5 +1,5 @@
 import os
-import ast
+import subprocess
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -31,6 +31,33 @@ def get_default_params():
                 n_box=10976,
                 boxsize=425.
                 )
+
+
+def run_make_celldata(params_dict):
+    """
+    Run the make_celldata program after
+    writing a temporary settings file
+
+    :param params_dict: Dictionary containing parameters
+    """
+    write_make_celldata_config(params_dict)
+    cwd = os.getcwd()
+    os.chdir(MAKE_CELLDATA_DIR)
+    print 'Running make_celldata'
+    subprocess.call('./make_celldata.x')
+    os.chdir(cwd)
+
+
+def run_make_galdata(params_dict):
+    pass
+
+
+def run_simpletransfer(params_dict):
+    pass
+
+
+def run_full_pipeline(params_dict):
+    pass
 
 
 def read_params_from_file(params_file):
@@ -121,4 +148,5 @@ def write_simpletransfer_config(params_dict):
 
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
-    print read_params_from_file('experiment_bigbox.txt')
+    params = read_params_from_file('sample_settings.txt')
+    run_make_celldata(params)
