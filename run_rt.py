@@ -131,9 +131,9 @@ def write_make_celldata_config(params_dict):
         'dfile=\'%s\'' % params_dict['density_file'],
         'xfile=\'%s\'' % params_dict['xfrac_file'],
         'outfile=\'%s' % output_filename,
-        'redshift=%.3f' % params_dict['redshift'],
-        'n_box=%d' % params_dict['n_box'],
-        'boxsize=%f' % params_dict['boxsize'],
+        'redshift=%.3f' % float(params_dict['redshift']),
+        'n_box=%d' % int(params_dict['n_box']),
+        'boxsize=%f' % float(params_dict['boxsize']),
         '/'
     ]
 
