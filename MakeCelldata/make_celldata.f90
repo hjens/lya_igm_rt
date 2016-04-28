@@ -46,8 +46,14 @@ open(unit=1, file='make_cell_data_parameters.txt', form='formatted', status='old
 read(1, nml=parameters, iostat=ierr)
 close(1)
 
-print*, 'The redshift is', redshift
-print*, 'Do not forget to set this in settings.txt'
+print*, 'Read parameters file'
+print*, 'Redshift ', redshift
+print*, 'xfile', xfile
+print*, 'dfile', dfile
+print*, 'vfile', vfile
+print*, 'outfile', outfile
+print*, 'n-box', n_box
+print*, 'boxsize', boxsize
 
 Hz = H0*sqrt(Omega0*(1.0+redshift)**3 + lam)
 LB = boxsize/h

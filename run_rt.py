@@ -126,7 +126,7 @@ def write_make_celldata_config(params_dict):
                             'make_cell_data_parameters.txt')
     output_filename = os.path.join(params_dict['output_dir'], 'CellData.bin')
     output = [
-        '&settings',
+        '&parameters',
         'vfile=\'%s\'' % params_dict['velocity_file'],
         'dfile=\'%s\'' % params_dict['density_file'],
         'xfile=\'%s\'' % params_dict['xfrac_file'],
