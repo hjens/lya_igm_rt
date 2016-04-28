@@ -1,4 +1,5 @@
 import os
+import ast
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -30,6 +31,31 @@ def get_default_params():
                 n_box=10976,
                 boxsize=425.
                 )
+
+
+def read_params_from_file(params_file):
+    """
+    Read simulation paramers from a file and
+    return them as a dictionary. Also check
+    that all the required keys are present
+
+    :param params_file: The file containing the parameters
+    :return: A dictionary with the parameters
+    """
+    # Read parameters from the file
+    params_dict = dict()
+    with open(params_file, 'r') as f:
+        for l in f.readlines():
+            if '=' in l:
+                l = l.split('#')[0].strip()
+                k, v = l.split('=')
+                params_dict[k.strip()] = v
+    # Check if all keys are present
+    default_params = get_default_params()
+    for k in default_params.keys():
+        if k not in params_dict.keys():
+            print 'Warning! Key', k, ' not present in file'
+    return params_dict
 
 
 def write_make_celldata_config(params_dict):
@@ -91,6 +117,4 @@ def write_simpletransfer_config(params_dict):
 
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
-    params = get_default_params()
-    write_make_celldata_config(params)
-    write_simpletransfer_config(params)
+    print read_params_from_file('experiment_bigbox.txt')
