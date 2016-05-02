@@ -45,6 +45,7 @@ void SimParams::ReadConfigFile(string filename)
 	fin.close();
 
 	//Strip quotes from directories
+	cout << "Processing values " << endl;
 	data_dir = data_dir.substr(1,data_dir.size()-2);
 	data_subdir = data_subdir.substr(1,data_subdir.size()-2);
 	celldata_file = celldata_file.substr(1,celldata_file.size()-2);
