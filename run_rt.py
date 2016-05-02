@@ -163,12 +163,12 @@ def write_simpletransfer_config(params_dict):
     filename = os.path.join(SIMPLETRANSFER_DIR, 'simpletransfer_settings.in')
     output = [
         params_dict['output_dir'],  # data_dir
-        '',  # data_subdir
+        'dummy1',  # data_subdir
         'CellData.bin',  # celldata_file
         'GalData.dat',  # galdata_file
         params_dict['output_dir'],  # data_subdir_in
         params_dict['raw_output'],  # data_filename
-        '',  # proc_file in old version. not used
+        'dummy2',  # proc_file in old version. not used
         params_dict['redshift'],  # sim_z
         params_dict['start_dist_vr'],  # sim_distvr
         params_dict['specres_bins'],  # sim_res
