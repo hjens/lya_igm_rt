@@ -191,7 +191,8 @@ def sanity_check_parameters(params_dict):
             print 'WARNING: file', params_dict[k], \
                 'does not exist'
         inferred_z = c2t.determine_redshift_from_filename(params_dict[k])
-        if not np.isclose(inferred_z, params_dict['redshift'], atol=0.01):
+        if not np.isclose(inferred_z, float(params_dict['redshift']),
+                          atol=0.01):
             print 'WARNING: possible redshift mismatch in file:', \
                 params_dict[k]
 
