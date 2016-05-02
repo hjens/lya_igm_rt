@@ -1,6 +1,8 @@
 import os
 import subprocess
 import shutil
+import c2raytools as c2t
+import numpy as np
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -173,8 +175,31 @@ def write_simpletransfer_config(params_dict):
         f.write('\n'.join(map(str, output)))
 
 
+def sanity_check_parameters(params_dict):
+    """
+    Run a sanity check of parameters. Make sure
+    that input files exist and that the redshift looks
+    reasonable.
+
+    :param params_dict: Dictionary of parameters
+    :return: True if there was a problem, False otherwise
+    """
+    # Check that input files exist and have reasonable redshifts
+    file_keys = ['velocity_file', 'density_file', 'xfrac_file']
+    for k in file_keys:
+        if not os.path.exists(params_dict[k]):
+            print 'WARNING: file', params_dict[k], \
+                'does not exist'
+        inferred_z = c2t.determine_redshift_from_filename(params_dict[k])
+        if not np.isclose(inferred_z, params_dict['redshift'], atol=0.01):
+            print 'WARNING: possible redshift mismatch in file:', \
+                params_dict[k]
+
+
+
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
+    sanity_check_parameters(params)
     prepare_output_dir(params)
     run_make_celldata(params)
