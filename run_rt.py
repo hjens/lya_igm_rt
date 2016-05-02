@@ -77,7 +77,18 @@ def run_make_galdata(params_dict):
 
 
 def run_simpletransfer(params_dict):
-    pass
+    """
+    Run the main radiative transfer after
+    writing a temporary settings file
+
+    :param params_dict: Dictionary containing parameters
+    """
+    write_simpletransfer_config(params_dict)
+    cwd = os.getcwd()
+    os.chdir(SIMPLETRANSFER_DIR)
+    print 'Running SimpleTransfer'
+    subprocess.call('/SimpleTransfer.x')
+    os.chdir(cwd)
 
 
 def run_full_pipeline(params_dict):
