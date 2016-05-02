@@ -53,7 +53,7 @@ class SimParams
 		double Getn_HIAtPos(Vector3d pos);
 		float GetDtot();
 
-		string GetOutdataFilename() {return data_dir + "/" + data_subdir + "/" + data_filename;}
+		string GetOutdataFilename() {return data_dir + "/" + data_filename;}
 	private:
 		void RemoveHubbleFlow();
 		float *rho_HI;
