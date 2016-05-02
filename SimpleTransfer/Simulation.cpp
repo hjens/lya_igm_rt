@@ -33,6 +33,7 @@ void Simulation::Prepare(string configfile)
 void Simulation::RunSim()
 {
     cout << "Running simulation..." << endl;
+    cout << "Total number of galaxies " << params->GetGalaxyCount() << endl;
 	int chunk_gals = 1000; //Write data for every so many galaxies
 	WriteDataHeader(params->GetOutdataFilename());
 
