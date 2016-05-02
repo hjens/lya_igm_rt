@@ -69,7 +69,6 @@ class SimParams
 		string celldata_file;
 		string galdata_file;
 		string data_filename;
-		string proc_filename;
 		double redshift;
 		double f_rvir;
 		int spec_res;

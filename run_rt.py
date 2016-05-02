@@ -166,7 +166,6 @@ def write_simpletransfer_config(params_dict):
         'CellData.bin',  # celldata_file
         'GalData.dat',  # galdata_file
         params_dict['raw_output'],  # data_filename
-        'dummy2',  # proc_file in old version. not used
         params_dict['redshift'],  # sim_z
         params_dict['start_dist_vr'],  # sim_distvr
         params_dict['specres_bins'],  # sim_res
