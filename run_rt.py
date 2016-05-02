@@ -183,7 +183,7 @@ def write_simpletransfer_config(params_dict):
         params_dict['los_dir']
     ]
     with open(filename, 'w') as f:
-        f.write('\n'.join(map(str, output)))
+        f.write(' \n'.join(map(str, output)))
 
 
 def sanity_check_parameters(params_dict):

@@ -44,16 +44,6 @@ void SimParams::ReadConfigFile(string filename)
 	getline(fin, line); str.str(line); str >> los_dirs;
 	fin.close();
 
-	//Strip quotes from directories
-	/*cout << "Processing values " << endl;
-	data_dir = data_dir.substr(1,data_dir.size()-2);
-	data_subdir = data_subdir.substr(1,data_subdir.size()-2);
-	celldata_file = celldata_file.substr(1,celldata_file.size()-2);
-	galdata_file = galdata_file.substr(1,galdata_file.size()-2);
-	data_subdir_in = data_subdir_in.substr(1,data_subdir_in.size()-2);
-	data_filename = data_filename.substr(1,data_filename.size()-2);
-	proc_filename = proc_filename.substr(1,proc_filename.size()-2);*/
-
 	//Print values read
 	cout << "Read config file: " << endl;
 	cout << data_dir << endl;
