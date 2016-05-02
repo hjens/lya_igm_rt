@@ -190,10 +190,10 @@ def sanity_check_parameters(params_dict):
     """
     Run a sanity check of parameters. Make sure
     that input files exist and that the redshift looks
-    reasonable.
+    reasonable. Print warnings if something looks
+    wrong.
 
     :param params_dict: Dictionary of parameters
-    :return: True if there was a problem, False otherwise
     """
     # Check that input files exist and have reasonable redshifts
     file_keys = ['velocity_file', 'density_file', 'xfrac_file']
@@ -214,4 +214,4 @@ if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
     sanity_check_parameters(params)
     prepare_output_dir(params)
-    run_make_celldata(params)
+    run_simpletransfer(params)
