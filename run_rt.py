@@ -170,8 +170,7 @@ def write_simpletransfer_config(params_dict):
         params_dict['start_dist_vr'],  # sim_distvr
         params_dict['specres_bins'],  # sim_res
         '%f %f' % (float(params_dict['wavel_lower']), float(params_dict['wavel_upper'])),
-        '%f %f' % (float(params_dict['wavel_lower']), float(params_dict['wavel_upper'])),
-        params_dict['num_los'], # sim_los
+        params_dict['num_los'],  # sim_los
         params_dict['num_sightlines_between_writes'],
         params_dict['frac_total_radius'],
         params_dict['hubble_const'],

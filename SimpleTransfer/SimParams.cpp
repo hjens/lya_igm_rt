@@ -31,7 +31,6 @@ void SimParams::ReadConfigFile(string filename)
 	getline(fin, line); str.str(line); str >> f_rvir;
 	getline(fin, line); str.str(line); str >> spec_res;
 	getline(fin, line); str.str(line); str >> BW_lower >> BW_upper;
-	getline(fin, line); str.str(line); str >> BW_lower_stat >> BW_upper_stat;
 	getline(fin, line); str.str(line); str >> num_los;
 	getline(fin, line); str.str(line); str >> num_los_write;
 	getline(fin, line); str.str(line); str >> sim_rad;
@@ -51,7 +50,6 @@ void SimParams::ReadConfigFile(string filename)
 	cout << f_rvir << endl;
 	cout << spec_res << endl;
 	cout << BW_lower << BW_upper << endl;
-	cout << BW_lower_stat << BW_upper_stat << endl;
 	cout << num_los << endl;
     cout << num_los_write << endl;
 	cout << sim_rad << endl;

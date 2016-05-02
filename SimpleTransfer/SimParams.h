@@ -73,7 +73,6 @@ class SimParams
 		double f_rvir;
 		int spec_res;
 		double BW_lower, BW_upper;
-		double BW_lower_stat, BW_upper_stat;
 		int num_los;
 		int num_los_write;
 		double sim_rad; //Not used
