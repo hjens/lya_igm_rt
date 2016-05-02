@@ -14,6 +14,6 @@ frac_total_radius=2.
 hubble_const=70.
 omega_m=0.27
 omega_0=0.73
-los_dir='x'
+los_dir=x
 n_box=10976
 boxsize=425
