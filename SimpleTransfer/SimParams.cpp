@@ -52,6 +52,30 @@ void SimParams::ReadConfigFile(string filename)
 	data_subdir_in = data_subdir_in.substr(1,data_subdir_in.size()-2);
 	data_filename = data_filename.substr(1,data_filename.size()-2);
 	proc_filename = proc_filename.substr(1,proc_filename.size()-2);
+
+	//Print values read
+	cout << "Read config file: " << endl;
+	cout << data_dir << endl;
+	cout << data_subdir << endl;
+	cout << celldata_file << endl;
+	cout << galdata_file << endl;
+	cout << data_subdir_in << endl;
+	cout << data_filename << endl;
+	cout << proc_filename << endl;
+	cout << redshift << endl;
+	cout << f_rvir << endl;
+	cout << spec_res << endl;
+	cout << BW_lower << BW_ << endlupper;
+	cout << BW_lower_stat << BW_up << endlper_stat;
+	cout << num_los << endl;
+    cout << num_los_write << endl;
+	cout << sim_rad << endl;
+	cout << H0 << endl;
+	cout << Omega0 << endl;
+	cout << lam << endl;
+	cout << los_dirs << endl;
+	cout << "..." << endl;
+
 }
 //-------------------------------------------------------------
 
