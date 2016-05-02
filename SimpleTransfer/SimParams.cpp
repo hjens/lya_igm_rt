@@ -65,8 +65,8 @@ void SimParams::ReadConfigFile(string filename)
 	cout << redshift << endl;
 	cout << f_rvir << endl;
 	cout << spec_res << endl;
-	cout << BW_lower << BW_ << endlupper;
-	cout << BW_lower_stat << BW_up << endlper_stat;
+	cout << BW_lower << BW_upper << endl;
+	cout << BW_lower_stat << BW_upper_stat << endl;
 	cout << num_los << endl;
     cout << num_los_write << endl;
 	cout << sim_rad << endl;
