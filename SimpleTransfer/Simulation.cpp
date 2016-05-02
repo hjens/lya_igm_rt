@@ -32,6 +32,7 @@ void Simulation::Prepare(string configfile)
 //Run in a number of chunks. Each chunk is run in a number of threads, and then written to file
 void Simulation::RunSim()
 {
+    cout << "Running simulation..." << endl;
 	int chunk_gals = 1000; //Write data for every so many galaxies
 	WriteDataHeader(params->GetOutdataFilename());
 
