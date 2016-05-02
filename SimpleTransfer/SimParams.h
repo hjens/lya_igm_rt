@@ -66,7 +66,6 @@ class SimParams
 
 		//Parameters read from config file
 		string data_dir;
-		string data_subdir;
 		string celldata_file;
 		string galdata_file;
 		string data_subdir_in;

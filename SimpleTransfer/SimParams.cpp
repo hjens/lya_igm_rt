@@ -24,7 +24,6 @@ void SimParams::ReadConfigFile(string filename)
 	cout << "Reading config file " << filename << endl;
 
 	getline(fin, line); str.str(line); str >> data_dir;
-	getline(fin, line); str.str(line); str >> data_subdir;
 	getline(fin, line); str.str(line); str >> celldata_file;
 	getline(fin, line); str.str(line); str >> galdata_file;
 	getline(fin, line); str.str(line); str >> data_subdir_in;
@@ -47,7 +46,6 @@ void SimParams::ReadConfigFile(string filename)
 	//Print values read
 	cout << "Read config file: " << endl;
 	cout << data_dir << endl;
-	cout << data_subdir << endl;
 	cout << celldata_file << endl;
 	cout << galdata_file << endl;
 	cout << data_subdir_in << endl;
@@ -73,7 +71,7 @@ void SimParams::ReadConfigFile(string filename)
 //Read galaxy data and store in the linked list galaxies
 void SimParams::ReadGalData()
 {
-	string filename = data_dir + "/" + data_subdir + "/" + galdata_file;
+	string filename = data_dir + "/" + galdata_file;
 	cout << "Reading galaxy data from " << filename << "..." << endl;
 	ifstream file(filename.c_str());
 	string line ;
@@ -99,7 +97,7 @@ void SimParams::ReadGalData()
 //Read CellData file, containing neutral density and gas velocities
 void SimParams::ReadCellData()
 {
-	string filename = data_dir + "/" + data_subdir + "/" + celldata_file;
+	string filename = data_dir + "/" + celldata_file;
 	cout << "Reading cell data from " << filename << endl;
 	ifstream fin(filename.c_str(), ios::in | ios::binary);
 	assert (fin);
@@ -205,7 +203,7 @@ void SimParams::ReadLOSDir()
 	if (los_dirs == "x" || los_dirs == "y" || los_dirs == "z")
 		filename = los_dirs;
 	else
-	   filename	= data_dir + "/" + data_subdir + "/" + los_dirs;
+	   filename	= data_dir + "/" + los_dirs;
 
 	if (filename == "x")
 	{

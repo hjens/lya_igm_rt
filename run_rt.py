@@ -163,7 +163,6 @@ def write_simpletransfer_config(params_dict):
     filename = os.path.join(SIMPLETRANSFER_DIR, 'simpletransfer_settings.in')
     output = [
         params_dict['output_dir'],  # data_dir
-        'dummy1',  # data_subdir
         'CellData.bin',  # celldata_file
         'GalData.dat',  # galdata_file
         params_dict['output_dir'],  # data_subdir_in
