@@ -26,7 +26,6 @@ void SimParams::ReadConfigFile(string filename)
 	getline(fin, line); str.str(line); str >> data_dir;
 	getline(fin, line); str.str(line); str >> celldata_file;
 	getline(fin, line); str.str(line); str >> galdata_file;
-	getline(fin, line); str.str(line); str >> data_subdir_in;
 	getline(fin, line); str.str(line); str >> data_filename;
 	getline(fin, line); str.str(line); str >> proc_filename;
 	getline(fin, line); str.str(line); str >> redshift;
@@ -48,7 +47,6 @@ void SimParams::ReadConfigFile(string filename)
 	cout << data_dir << endl;
 	cout << celldata_file << endl;
 	cout << galdata_file << endl;
-	cout << data_subdir_in << endl;
 	cout << data_filename << endl;
 	cout << proc_filename << endl;
 	cout << redshift << endl;

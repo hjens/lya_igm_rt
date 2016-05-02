@@ -68,7 +68,6 @@ class SimParams
 		string data_dir;
 		string celldata_file;
 		string galdata_file;
-		string data_subdir_in;
 		string data_filename;
 		string proc_filename;
 		double redshift;
