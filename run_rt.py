@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import c2raytools as c2t
 import numpy as np
+import make_galdata
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -73,7 +74,8 @@ def run_make_celldata(params_dict):
 
 
 def run_make_galdata(params_dict):
-    pass
+    make_galdata.test_run(output_file=os.path.join(params_dict['output_dir'],
+                                                   'GalData.dat'))
 
 
 def run_simpletransfer(params_dict):
@@ -212,4 +214,5 @@ if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
     sanity_check_parameters(params)
     prepare_output_dir(params)
+    run_make_galdata(params)
     run_simpletransfer(params)

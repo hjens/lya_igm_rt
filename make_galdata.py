@@ -31,9 +31,8 @@ def write_galdata(halo_data, filename):
             f.write(l + '\n')
 
 
-# ------------- TEST --------------------
-if __name__ == '__main__':
-   halo_test = dict(
+def test_run(output_file):
+    halo_test = dict(
        x_pos_kpc=np.array([1.0, 1.2, -1.0]),
        y_pos_kpc=np.array([2.0, -1.3, -5.0]),
        z_pos_kpc=np.array([-5.0, 1.3, -1.7]),
@@ -42,6 +41,6 @@ if __name__ == '__main__':
        y_vel_kms=np.array([20., -13., -50.]),
        z_vel_kms=np.array([-50., 1., -17.]),
        logMsol=np.array([11., 12.5, 10.7])
-   )
-   write_galdata(halo_test, 'galdata_test.dat')
+    )
+    write_galdata(halo_test, output_file)
 
