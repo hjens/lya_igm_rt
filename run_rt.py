@@ -87,7 +87,7 @@ def run_simpletransfer(params_dict):
     cwd = os.getcwd()
     os.chdir(SIMPLETRANSFER_DIR)
     print 'Running SimpleTransfer'
-    subprocess.call('/SimpleTransfer.x')
+    subprocess.call('./SimpleTransfer.x')
     os.chdir(cwd)
 
 
