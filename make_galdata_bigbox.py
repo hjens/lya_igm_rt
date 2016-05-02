@@ -5,6 +5,7 @@ import sys
 sys.path.append('/home/hjens/workspace/LyA_bigbox/src')
 #import lya_tools as lya
 
+
 def get_halo_shifts(z, shifts_file=None):
     '''
     Return the random offsets for the halo files

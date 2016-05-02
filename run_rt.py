@@ -160,7 +160,8 @@ def write_simpletransfer_config(params_dict):
 
     :param params_dict: Dictionary containing the parameters
     """
-    filename = os.path.join(SIMPLETRANSFER_DIR, 'simpletransfer_settings.in')
+    filename = os.path.join(SIMPLETRANSFER_DIR,
+                            'simpletransfer_settings.in')
     output = [
         params_dict['output_dir'],  # data_dir
         'CellData.bin',  # celldata_file
@@ -169,7 +170,8 @@ def write_simpletransfer_config(params_dict):
         params_dict['redshift'],  # sim_z
         params_dict['start_dist_vr'],  # sim_distvr
         params_dict['specres_bins'],  # sim_res
-        '%f %f' % (float(params_dict['wavel_lower']), float(params_dict['wavel_upper'])),
+        '%f %f' % (float(params_dict['wavel_lower']),
+                   float(params_dict['wavel_upper'])),
         params_dict['num_los'],  # sim_los
         params_dict['num_sightlines_between_writes'],
         params_dict['frac_total_radius'],
