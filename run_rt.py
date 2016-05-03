@@ -23,6 +23,7 @@ def get_default_params():
                 redshift=7.,
                 raw_output='transmission_out.bin',
                 fractions_output='transmitted_fractions.dat',
+                line_model='gmg',
                 start_dist_vr=1.5,
                 specres_bins=1500,
                 wavel_lower=1180.,
@@ -38,6 +39,10 @@ def get_default_params():
                 boxsize=425.,
                 overwrite_output=False
                 )
+
+
+def run_full_pipeline(params_dict):
+    pass
 
 
 def prepare_output_dir(params_dict):
@@ -93,10 +98,6 @@ def run_simpletransfer(params_dict):
     print 'Running SimpleTransfer'
     subprocess.call(['./SimpleTransfer.x', 'simpletransfer_settings.in'])
     os.chdir(cwd)
-
-
-def run_full_pipeline(params_dict):
-    pass
 
 
 def read_params_from_file(params_file, add_defaults=True):

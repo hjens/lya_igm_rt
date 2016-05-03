@@ -3,6 +3,7 @@ import struct
 import spectrum_models as sm
 
 
+# Helper functions
 def get_good_n_chunks(n_los, nmax=1000, nmin=1):
     """
     Find a suitable integer that divides n_los
@@ -14,9 +15,13 @@ def get_good_n_chunks(n_los, nmax=1000, nmin=1):
     raise ValueError('Could not find a suitable n_chunks')
 
 
-def process_output(transmissions_file, line_model,
-                   halo_masses, params_dict,
-                   n_chunks=None, line_model_args={}):
+def read_int(f):
+    return struct.unpack('i', f.read(4))[0]
+
+
+def get_trans_frac_in_chunks(transmissions_file, line_model,
+                             halo_masses, params_dict,
+                             n_chunks=None, line_model_args={}):
     """
     Process the transmission functions in the given output
     file and calculate the transmitted fraction given the
@@ -44,10 +49,6 @@ def process_output(transmissions_file, line_model,
     specres = params_dict['specres_bins']
     wavel = np.linspace(params_dict['wavel_lower'],
                         params_dict['wavel_upper'], specres)
-
-    # Helper function
-    def read_int(f):
-        return struct.unpack('i', f.read(4))[0]
 
     # The output files can be very large, and need to be read in chunks
     fractions_out = []
@@ -92,11 +93,65 @@ def process_output(transmissions_file, line_model,
         return np.array(fractions_out)
 
 
+def get_tau(transmissions_file, params_dict):
+    """
+    Read a raw output file from SimpleTransfer and
+    return a matrix with dimensions (n_los, n_spec_bins)
+    containing the optical depth as a function of wavelength
+
+    The transmission function is related to tau as:
+    T = exp(-tau)
+
+    :param transmissions_file: The name of the file to read
+    :param params_dict: Dictionary containing paramters
+    :return: (wavel, tau) tuple. tau is a matrix containing
+    the optical depth. It has dimensions (n_los, n_spec_bins)
+    """
+
+    # Extract info from parameters
+    specres = params_dict['specres_bins']
+    wavel = np.linspace(params_dict['wavel_lower'],
+                        params_dict['wavel_upper'], specres)
+    with open(transmissions_file, 'rb') as f:
+        # Read header
+        _ = read_int(f)
+        n_rec = read_int(f)
+        n_los = read_int(f)
+        _ = read_int(f)
+        print 'Reading data file...'
+
+        # Read each of the records
+        ifrac = n_los/n_rec
+        recsize = ifrac*specres
+        tau_data = np.zeros(n_los*specres, dtype='float32')
+        print 'reading'
+        for i in range(n_rec):
+            _ = read_int(f)
+            if i < n_rec-1:
+                tau_data[i*recsize:(i+1)*recsize] = np.fromfile(f,
+                                                                dtype='float32',
+                                                                count=recsize)
+            else:
+                tau_data[i*recsize:] = np.fromfile(f, dtype='float32',
+                                                   count=n_los*specres-i*recsize)
+            _ = read_int(f)
+        print 'reshaping'
+    tau_data[tau_data != tau_data] = 1e10  # Try to prevent numerical problems
+    tau_data[tau_data < 0] = 0.
+
+    tau_data = tau_data.reshape((n_los, specres))
+    return wavel, tau_data
+
+
 if __name__ == '__main__':
     import run_rt
+    import pylab as pl
     params = run_rt.get_default_params()
     halo_masses = np.array([10.0, 10.5, 11.0])
-    fractions = process_output('sample_transmission.bin', params_dict=params,
-                               line_model=sm.line_model_gmg,
-                               halo_masses=halo_masses)
-    print fractions
+    fractions = get_trans_frac_in_chunks('sample_transmission.bin', params_dict=params,
+                                         line_model=sm.line_model_gmg,
+                                         halo_masses=halo_masses)
+    wavel, tau = get_tau('sample_transmission.bin', params)
+    for i in range(tau.shape[0]):
+        pl.plot(wavel, np.exp(-tau[i,:]))
+    pl.show()
