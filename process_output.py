@@ -53,19 +53,12 @@ def get_trans_frac_in_chunks(transmissions_file, line_model,
     # The output files can be very large, and need to be read in chunks
     fractions_out = []
     with open(transmissions_file, 'rb') as f:
-        # Read header
-        _ = read_int(f)  # FORTRAN record separator
-        n_rec = read_int(f)
-        n_los = read_int(f)  # Total number of LOS (i.e. not per galaxy)
-        _ = read_int(f)
-        _ = read_int(f)
+        recsize, n_rec, n_los = read_transmissions_header(f, specres)
 
         # Find the number of chunks to use when reading the file
         if n_chunks is None:
             n_chunks = get_good_n_chunks(n_los=n_los)
 
-        ifrac = n_los/n_rec
-        recsize = ifrac*specres
         chunk_size = recsize/n_chunks
         assert np.mod(chunk_size, specres) == 0
         assert n_rec == 1
@@ -113,34 +106,45 @@ def get_tau(transmissions_file, params_dict):
     wavel = np.linspace(params_dict['wavel_lower'],
                         params_dict['wavel_upper'], specres)
     with open(transmissions_file, 'rb') as f:
-        # Read header
-        _ = read_int(f)
-        n_rec = read_int(f)
-        n_los = read_int(f)
-        _ = read_int(f)
-        print 'Reading data file...'
+        recsize, n_rec, n_los = read_transmissions_header(f, specres)
 
-        # Read each of the records
-        ifrac = n_los/n_rec
-        recsize = ifrac*specres
-        tau_data = np.zeros(n_los*specres, dtype='float32')
+        tau = np.zeros(n_los*specres, dtype='float32')
         print 'reading'
         for i in range(n_rec):
             _ = read_int(f)
             if i < n_rec-1:
-                tau_data[i*recsize:(i+1)*recsize] = np.fromfile(f,
+                tau[i*recsize:(i+1)*recsize] = np.fromfile(f,
                                                                 dtype='float32',
                                                                 count=recsize)
             else:
-                tau_data[i*recsize:] = np.fromfile(f, dtype='float32',
+                tau[i*recsize:] = np.fromfile(f, dtype='float32',
                                                    count=n_los*specres-i*recsize)
             _ = read_int(f)
         print 'reshaping'
-    tau_data[tau_data != tau_data] = 1e10  # Try to prevent numerical problems
-    tau_data[tau_data < 0] = 0.
+    tau[tau != tau] = 1e10  # Try to prevent numerical problems
+    tau[tau < 0] = 0.
 
-    tau_data = tau_data.reshape((n_los, specres))
-    return wavel, tau_data
+    tau = tau.reshape((n_los, specres))
+    return wavel, tau
+
+
+def read_transmissions_header(f, specres):
+    """
+    Read the header of a transmissions file
+
+    :param f: File object
+    :param specres: Spectral resolution
+    :return: recsize, n_rec, n_los
+    """
+    _ = read_int(f)
+    n_rec = read_int(f)
+    n_los = read_int(f)
+    _ = read_int(f)
+
+    ifrac = n_los/n_rec
+    recsize = ifrac*specres
+    return recsize, n_rec, n_los
+
 
 
 if __name__ == '__main__':
@@ -151,6 +155,7 @@ if __name__ == '__main__':
     fractions = get_trans_frac_in_chunks('sample_transmission.bin', params_dict=params,
                                          line_model=sm.line_model_gmg,
                                          halo_masses=halo_masses)
+    print fractions
     wavel, tau = get_tau('sample_transmission.bin', params)
     for i in range(tau.shape[0]):
         pl.plot(wavel, np.exp(-tau[i,:]))
