@@ -1,7 +1,0 @@
-&settings
-vfile='/disk/sn-12/garrelt/Science/Simulations/Reionization/C2Ray_WMAP5/114Mpc_WMAP5/coarser_densities/nc512_halos_removed/8.892v_all.dat'
-dfile='/disk/sn-12/garrelt/Science/Simulations/Reionization/C2Ray_WMAP5/114Mpc_WMAP5/coarser_densities/nc512_halos_removed/8.892n_all.dat'
-xfile='/disk/sn-12/garrelt/Science/Simulations/Reionization/C2Ray_WMAP5/114Mpc_WMAP5/114Mpc_f2_10S_256/results_ranger/xfrac3d_8.892.bin'
-outfile='/disk/sn-12/hjens/Lumfunc_simpletransfer_big/z8.892_1e10up_coordaxes_rand/CellData.bin'
-redshift=8.892
-/
