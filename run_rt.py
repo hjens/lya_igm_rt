@@ -4,6 +4,7 @@ import shutil
 import c2raytools as c2t
 import numpy as np
 import make_galdata
+from process_output import get_trans_frac_in_chunks
 import spectrum_models as sm
 
 # Constants for sub-directories
@@ -98,6 +99,42 @@ def run_simpletransfer(params_dict):
     print 'Running SimpleTransfer'
     subprocess.call(['./SimpleTransfer.x', 'simpletransfer_settings.in'])
     os.chdir(cwd)
+
+
+def run_postprocessing(params_dict):
+    """
+    Calculate the transmitted fractions given
+    some line model
+
+    :param params_dict: Dictionary containing the parameters
+    """
+    # Read halo masses from GalData file
+    galdata_file = os.path.join(params_dict['output_dir'],
+                                'GalData.dat')
+    galdata = np.loadtxt(galdata_file, skiprows=4)
+    halo_masses = galdata[:, 7]
+
+    # Determine which line model to use
+    if params_dict['line_model'] == 'gmg':
+        line_model = sm.line_model_gmg
+    elif params_dict['line_model'] == 'gaussian':
+        line_model = sm.line_model_simple_gaussian
+    elif params_dict['line_model'] == 'gaussian_varying':
+        line_model = sm.line_model_varying_gaussian
+    elif params_dict['line_model'] == 'analytic_sphsym':
+        line_model = sm.line_model_analytic_sphsym
+    elif hasattr(params_dict['line_model'], '__call__'):
+        line_model = params_dict['line_model']
+    else:
+        raise ValueError('Unknown line model')
+    # Calculate transmitted fractions and save to output file
+    fractions = get_trans_frac_in_chunks(params_dict['raw_output'],
+                                         params_dict=params_dict,
+                                         line_model=line_model,
+                                         halo_masses=halo_masses)
+    output_file = os.path.join(params_dict['output_dir'],
+                               params_dict('fractions_output'))
+    np.savetxt(output_file, fractions)
 
 
 def read_params_from_file(params_file, add_defaults=True):

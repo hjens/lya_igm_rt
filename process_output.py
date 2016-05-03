@@ -113,12 +113,11 @@ def get_tau(transmissions_file, params_dict):
         for i in range(n_rec):
             _ = read_int(f)
             if i < n_rec-1:
-                tau[i*recsize:(i+1)*recsize] = np.fromfile(f,
-                                                                dtype='float32',
-                                                                count=recsize)
+                tau[i*recsize:(i+1)*recsize] = np.fromfile(f, dtype='float32',
+                                                           count=recsize)
             else:
                 tau[i*recsize:] = np.fromfile(f, dtype='float32',
-                                                   count=n_los*specres-i*recsize)
+                                              count=n_los*specres-i*recsize)
             _ = read_int(f)
         print 'reshaping'
     tau[tau != tau] = 1e10  # Try to prevent numerical problems
@@ -146,17 +145,17 @@ def read_transmissions_header(f, specres):
     return recsize, n_rec, n_los
 
 
-
 if __name__ == '__main__':
     import run_rt
     import pylab as pl
     params = run_rt.get_default_params()
     halo_masses = np.array([10.0, 10.5, 11.0])
-    fractions = get_trans_frac_in_chunks('sample_transmission.bin', params_dict=params,
+    fractions = get_trans_frac_in_chunks('sample_transmission.bin',
+                                         params_dict=params,
                                          line_model=sm.line_model_gmg,
                                          halo_masses=halo_masses)
     print fractions
     wavel, tau = get_tau('sample_transmission.bin', params)
     for i in range(tau.shape[0]):
-        pl.plot(wavel, np.exp(-tau[i,:]))
+        pl.plot(wavel, np.exp(-tau[i, :]))
     pl.show()
