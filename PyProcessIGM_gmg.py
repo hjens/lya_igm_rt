@@ -100,7 +100,7 @@ def get_transmissions_in_chunks(datafile_name, n_chunks):
 		#for i in range(len(halo_m)):
 		for i in range(T.shape[0]):
 			halo_idx = los_idx/num_los
-			spectrum_gmg = sm.get_line_double_gaussian(halo_m[halo_idx], wavel)
+			spectrum_gmg = sm.line_model_gmg(halo_m[halo_idx], wavel)
 
 			T_gmg.append(sm.get_transmitted_fraction(spectrum_gmg, T[i,:], wavel))
 			los_idx+=1

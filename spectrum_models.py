@@ -5,62 +5,40 @@ LYA_WAVEL = 1215.67
 C_LIGHT = 3.e5
 
 
-# ---- Helper functions ----
-
-def gaussian(x, mu, sigma):
-    """
-    Gaussian function with no normalization
-
-    :param x:
-    :param mu:
-    :param sigma:
-    :return: Gaussian with mean mu and sigma
-    """
-    return np.exp(-(x-mu)**2/(2.*sigma**2))
-
-
-def gaussian_minus_gaussian(x, sigma1, sigma2, mu=LYA_WAVEL):
-    f = gaussian(x,mu, sigma1)-gaussian(x,mu,sigma2)
-    return f
-
-
-def get_transmitted_fraction(emission, transmission, wavel):
-    emitted =  simps(emission, wavel)
-    transmitted = simps(emission*transmission, wavel)
-    return transmitted/emitted
-
-
 # ----  Line models ----
 
-def get_line_double_gaussian(mass, wavel):
+def line_model_gmg(wavel, **kwargs):
     """
     Gaussian-minus-gaussian model with
     the two sigmas fit to spectra in modelfit.py
     mass is log(Mh/Ms)
     """
 
+    mass = kwargs['mass']
     sigma1 = -6.5 + 0.75*mass
     sigma2 = -3.2 + 0.35*mass
     return gaussian_minus_gaussian(wavel, sigma1, sigma2)
 
 
-def get_line_simple_gaussian(wavel, width=150):
+def line_model_simple_gaussian(wavel, **kwargs):
     """
     Just a Gaussian with fixed width (given in km/s)
     """
+    width = kwargs['width']
     sigma = np.sqrt((1 + width / C_LIGHT) * LYA_WAVEL - LYA_WAVEL)
     return gaussian(wavel, LYA_WAVEL, sigma)
 
 
-def get_line_varying_gaussian(mass, wavel):
+def line_model_varying_gaussian(wavel, **kwargs):
     """
     Gaussian with a line width depending on halo mass
     """
+    mass = kwargs['mass']
     width = 150*((10**mass)/1e10)**(1./3.)
-    return get_line_simple_gaussian(wavel, width)
+    return line_model_simple_gaussian(wavel, width)
 
 
-def get_line_spherically_symmetric(wavel):
+def line_model_analytic_sphsym(wavel, **kwargs):
     """
     Analytical solution for a spherically symmetric
     hydrogen distribution. See Dijkstra et al 2006
@@ -101,3 +79,28 @@ def get_uv_lum_scatter(mass):
     if len(lum) == 1:
         return lum[0]
     return lum
+
+
+# ---- Helper functions ----
+
+def gaussian(x, mu, sigma):
+    """
+    Gaussian function with no normalization
+
+    :param x:
+    :param mu:
+    :param sigma:
+    :return: Gaussian with mean mu and sigma
+    """
+    return np.exp(-(x-mu)**2/(2.*sigma**2))
+
+
+def gaussian_minus_gaussian(x, sigma1, sigma2, mu=LYA_WAVEL):
+    f = gaussian(x, mu, sigma1)-gaussian(x, mu, sigma2)
+    return f
+
+
+def get_transmitted_fraction(emission, transmission, wavel):
+    emitted = simps(emission, wavel)
+    transmitted = simps(emission*transmission, wavel)
+    return transmitted/emitted

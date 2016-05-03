@@ -4,6 +4,7 @@ import shutil
 import c2raytools as c2t
 import numpy as np
 import make_galdata
+import spectrum_models as sm
 
 # Constants for sub-directories
 MAKE_CELLDATA_DIR = './MakeCelldata'
@@ -21,6 +22,7 @@ def get_default_params():
                 xfrac_file='xfrac.bin',
                 redshift=7.,
                 raw_output='transmission_out.bin',
+                fractions_output='transmitted_fractions.dat',
                 start_dist_vr=1.5,
                 specres_bins=1500,
                 wavel_lower=1180.,
