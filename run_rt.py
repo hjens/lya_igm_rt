@@ -208,7 +208,6 @@ def sanity_check_parameters(params_dict):
                 params_dict[k]
 
 
-
 # -------------------- TEST -----------------------------
 if __name__ == '__main__':
     params = read_params_from_file('sample_settings.txt')
