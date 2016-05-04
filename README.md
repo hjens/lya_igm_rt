@@ -62,3 +62,67 @@ Usage
 Running the full pipeline
 -------------------------
 Coming soon
+
+Running from a script
+---------------------
+
+
+Configuration
+=============
+Parameters
+----------
+Below is a list of all the parameters that can be set to
+configure the simulation. The most important ones are all
+the filenames (input and output), and the redshift.
+
+**You must also set the correct values for `n_box` and
+ `boxsize`.** These are specific to each C2-ray and CubeP3M
+ simulation. If you run with the wrong values, everything
+ will appear to work, but the results will be wrong.
+
+* `output_dir` - The directory where the output files will
+be placed.
+* `velocity_file` - The full path to the velocity file.
+* `density_file` - The full path to the density file.
+* `xfrac_file` - The full path to the ionization fraction
+file.
+* `redshift` - The redshift of the simulation.
+* `raw_output` - The file name of the raw output file from SimpleTransfer (will be placed in `output_dir`).
+* `fractions_output` - The name of the file containing
+transmitted LyA fractions, from `process_output.py` (will be placed in `output_dir`).
+* `line_model` - The model to use for the intrinsic LyA
+emission. Default is 'gmg'. See section below for more
+information.
+* `start_dist_vr` - The distance from galaxies, in virial
+radii, where the radiative transfer starts. Default is 1.5.
+* `specres_bins` - The spectral resolution of the
+transmission functions, measured in number of bins. Default
+is 1500.
+* `wavel_lower` - The wavelength, in Angstrom, where the
+radiative transfer begins. Default is 1180.
+* `wavel_upper`  - The wavelength, in Angstrom, where the
+radiative transfer stops. Default is 1220.
+* `num_los` - Number of sightlines to trace for each galaxy.
+See section below for more information.
+* `num_sightlines_between_writes` - The number of sightlines
+traced between each write. Default is 10000. You usually do
+not need to change this.
+* `frac_total_radius` - The fraction of the total volume
+used for ray tracing. Default is 2.0. You usually do not need
+to change this.
+* `hubble_const` - The Hubble constant. Default is 70.
+* `omega_m` - Omega_M. Default is 0.27.
+* `omega_0` - Omega_0. Default is 0.73.
+* `los_dir` - The line-of-sight directions. Default is 'x'.
+See section below for more information.
+* `n_box` - The fine resolution used in CubeP3M.
+* `boxsize` - The size of the box in Mpc/h.
+* `overwrite_output` - If this is True, any files in the
+output directory will be overwritten. Default is False.
+
+
+Line models
+-----------
+
+Sightline directions
+--------------------
