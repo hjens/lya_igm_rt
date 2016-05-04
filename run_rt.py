@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shutil
+import sys
 import c2raytools as c2t
 import numpy as np
 import make_galdata
@@ -43,7 +44,20 @@ def get_default_params():
 
 
 def run_full_pipeline(params_dict):
-    pass
+    """
+    Run the entire pipeline. Given C2-ray and CupeP3M
+    files as input, run LyA radative transfer and
+    then calculate transmitted fractions given some
+    intrinsic line model
+
+    :param params_dict: Dictionary containing parameters
+    """
+    prepare_output_dir(params_dict)
+    sanity_check_parameters(params_dict)
+    run_make_celldata(params_dict)
+    run_make_galdata(params_dict)
+    run_simpletransfer(params_dict)
+    run_postprocessing(params_dict)
 
 
 def prepare_output_dir(params_dict):
@@ -248,10 +262,7 @@ def sanity_check_parameters(params_dict):
                 params_dict[k]
 
 
-# -------------------- TEST -----------------------------
 if __name__ == '__main__':
-    params = read_params_from_file('sample_settings.txt')
-    sanity_check_parameters(params)
-    prepare_output_dir(params)
-    run_make_galdata(params)
-    run_simpletransfer(params)
+    # Read parameters from file, and run full pipeline
+    params = read_params_from_file(sys.argv[1])
+    run_full_pipeline(params)
