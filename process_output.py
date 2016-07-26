@@ -145,6 +145,7 @@ def read_transmissions_header(f, specres):
     return recsize, n_rec, n_los
 
 
+# ---------- TEST ----------------------
 if __name__ == '__main__':
     import run_rt
     import pylab as pl
