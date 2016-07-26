@@ -73,7 +73,7 @@ Usage
 =====
 Running the full pipeline
 -------------------------
-Coming soon
+To run the full pipeline you need only
 
 Running from a script
 ---------------------
