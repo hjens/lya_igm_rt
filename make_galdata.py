@@ -31,6 +31,27 @@ def write_galdata(halo_data, filename):
             f.write(l + '\n')
 
 
+def get_halodata_from_cubep3m(filename):
+    """
+    THIS FUNCTION NEEDS TO BE FILLED IN
+    It needs to read a cubep3m halo file and
+    return a dictionary containing the following keys:
+    x_pos_kpc (numpy array, x position in kpc)
+    y_pos_kpc (numpy array, y position in kpc)
+    z_pos_kpc (numpy array, z position in kpc)
+    rvir_kpc (numpy array, virial radius in kpc)
+    x_vel_kms (numpy array, x velocity in km/s)
+    y_vel_kms (numpy array, y velocity in km/s)
+    z_vel_kms (numpy array, z velocity in km/s)
+    logMsol  (numpy array, log10 of mass, in Msol)
+
+
+    :param filename: The name of the CubeP3M halo file
+    :return: Halo dictionary as described above
+    """
+    pass
+
+
 def test_run(output_file):
     halo_test = dict(
        x_pos_kpc=np.array([1.0, 1.2, -1.0]),

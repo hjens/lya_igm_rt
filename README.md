@@ -57,6 +57,18 @@ Installation
 2. Run `make` in the main directory
 
 
+Unfinished parts
+================
+The code to read halo files from CubeP3M and convert them into
+galdata files (that SimpleTransfer can read) still has to be written.
+Ideally, there should be a binary file format that contains both
+the halo data and the metadata about what the columns contain and
+in which units.
+
+Once such a file format exists, the function `get_halodata_from_cubep3m`
+can be filled in. This function is in the file `make_galdata.py`.
+
+
 Usage
 =====
 Running the full pipeline
