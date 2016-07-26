@@ -73,7 +73,17 @@ Usage
 =====
 Running the full pipeline
 -------------------------
-To run the full pipeline you need only
+To run the full pipeline you need only create a text file containing
+the relevant parameters for the simulation and run
+
+```
+>>> python run_rt.py my_settings_file.txt
+```
+
+A sample settings file (called `sample_settings.txt`) is included
+in the package. For more information about each parameter, see
+the section called _Parameters_ below).
+
 
 Running from a script
 ---------------------
