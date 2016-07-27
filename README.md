@@ -92,7 +92,21 @@ are controlled by parameters in the given settings file.
 
 Running from a script
 ---------------------
-Coming soon
+If you need more control over the process -- for example if you
+want to run several radiative transfer simulation steps on the same
+input, or if you want to run only the postprocessing step -- you can
+run each step in the pipeline from a python script. To do this, first
+import the appropriate module:
+
+```
+import run_rt
+```
+
+Then, use the functions `run_make_celldata`, `run_make_galdata`, 
+`run_simpletransfer` and `run_postprocessing`. These functions take 
+a dictionary containing simulation parameters as their only argument.
+To see the format of this dictionary, look at the function
+`get_default_params` in `run_rt.py`.
 
 
 Configuration
