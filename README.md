@@ -84,6 +84,11 @@ A sample settings file (called `sample_settings.txt`) is included
 in the package. For more information about each parameter, see
 the section called _Parameters_ below).
 
+This will read the specified density, velocity and ionization 
+fraction files and combine them into a single file. It will then
+make a file containing galaxy data and run the LyA radiative transfer
+through the IGM. Finally, it will run the postprocessing. All steps
+are controlled by parameters in the given settings file.
 
 Running from a script
 ---------------------

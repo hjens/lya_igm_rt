@@ -43,7 +43,6 @@ def get_trans_frac_in_chunks(transmissions_file, line_model,
     added
     :return: Array with the transmitted fractions
 
-    TODO: add halo masses parameters
     """
     # Extract info from parameters
     specres = params_dict['specres_bins']
@@ -73,8 +72,8 @@ def get_trans_frac_in_chunks(transmissions_file, line_model,
             tau = tau.reshape((chunk_size/specres, specres))
             trans_func = np.exp(-tau)
             for i in xrange(trans_func.shape[0]):
-                halo_idx = float(los_idx)/n_los*len(halo_masses)
-                line_model_args['mass'] = halo_masses[halo_idx]
+                line_model_args['mass'] = \
+                    halo_masses[float(los_idx)/n_los*len(halo_masses)]
                 spectrum_gmg = line_model(wavel, **line_model_args)
 
                 trans_frac = sm.get_transmitted_fraction(spectrum_gmg,
@@ -109,7 +108,6 @@ def get_tau(transmissions_file, params_dict):
         recsize, n_rec, n_los = read_transmissions_header(f, specres)
 
         tau = np.zeros(n_los*specres, dtype='float32')
-        print 'reading'
         for i in range(n_rec):
             _ = read_int(f)
             if i < n_rec-1:
@@ -119,7 +117,6 @@ def get_tau(transmissions_file, params_dict):
                 tau[i*recsize:] = np.fromfile(f, dtype='float32',
                                               count=n_los*specres-i*recsize)
             _ = read_int(f)
-        print 'reshaping'
     tau[tau != tau] = 1e10  # Try to prevent numerical problems
     tau[tau < 0] = 0.
 
