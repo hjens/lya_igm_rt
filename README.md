@@ -195,9 +195,9 @@ in the file must contain three numbers, specifying a direction vector.
 For example, the following file will trace sightlines along all
 three coordinates axes, in both positive and negative directions:
 
-> 1.0 0.0 0.0
-> -1.0 0.0 0.0
-> 0.0 1.0 0.0
-> 0.0 -1.0 0.0
-> 0.0 0.0 1.0
-> 0.0 0.0 -1.0
+>> 1.0 0.0 0.0
+>> -1.0 0.0 0.0
+>> 0.0 1.0 0.0
+>> 0.0 -1.0 0.0
+>> 0.0 0.0 1.0
+>> 0.0 0.0 -1.0
