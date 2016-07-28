@@ -165,6 +165,39 @@ output directory will be overwritten. Default is False.
 
 Line models
 -----------
+SimpleTransfer only calculates the transmission function of LyA
+through the IGM. To calculate the transmitted fraction of LyA, you
+must specify some intrinsic line model. A few models are 
+provided in `spectrum_models.py` (see Jensen et al 2013 for more
+information):
+* gmg (Gaussian-minus-Gaussian)
+* gaussian (single Gaussian with fixed width)
+* gaussian_varying (single Gaussian with width depending on halo mass)
+* analytic_sphsym (analytic solution, spherically symmetric)
+
+In addition, if you run the post-processing step from a script, you may
+supply your own line model as a parameter. In this case, the 
+`line_model` parameter must be a function accepting one argument, the
+log10 mass of the halo.
+
 
 Sightline directions
 --------------------
+The parameters file contains an entry called `los_dir`, which
+specifies the direction(s) of the lines-of-sight. This parameter
+is a string which can either be 'x', 'y' or 'z' or the name of
+a file. If it is 'x', 'y' or 'z', all sightlines will be traced
+along the specified coordinate axis. 
+
+If a filename is instead
+specified, the sightlines will be read from the file. Each line
+in the file must contain three numbers, specifying a direction vector.
+For example, the following file will trace sightlines along all
+three coordinates axes, in both positive and negative directions:
+
+> 1.0 0.0 0.0
+> -1.0 0.0 0.0
+> 0.0 1.0 0.0
+> 0.0 -1.0 0.0
+> 0.0 0.0 1.0
+> 0.0 0.0 -1.0

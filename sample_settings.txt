@@ -17,3 +17,6 @@ omega_0=0.73
 los_dir=x
 n_box=10976
 boxsize=425
+line_model=gmg
+overwrite_output=0
+fractions_output='transmitted_fractions.dat'

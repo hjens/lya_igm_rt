@@ -74,9 +74,9 @@ def get_trans_frac_in_chunks(transmissions_file, line_model,
             for i in xrange(trans_func.shape[0]):
                 line_model_args['mass'] = \
                     halo_masses[float(los_idx)/n_los*len(halo_masses)]
-                spectrum_gmg = line_model(wavel, **line_model_args)
+                intrinsic_spectrum = line_model(wavel, **line_model_args)
 
-                trans_frac = sm.get_transmitted_fraction(spectrum_gmg,
+                trans_frac = sm.get_transmitted_fraction(intrinsic_spectrum,
                                                          trans_func[i, :],
                                                          wavel)
                 fractions_out.append(trans_frac)

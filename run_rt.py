@@ -265,4 +265,5 @@ def sanity_check_parameters(params_dict):
 if __name__ == '__main__':
     # Read parameters from file, and run full pipeline
     params = read_params_from_file(sys.argv[1])
+    sanity_check_parameters(params)
     run_full_pipeline(params)
