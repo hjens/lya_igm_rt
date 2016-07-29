@@ -47,7 +47,7 @@ scripted runs.
 Prerequisites
 =============
 * Python, with `numpy` and `scipy` installed.
-* `c2raytools`
+* [c2raytools](https://github.com/hjens/c2raytools/tree/master/src/c2raytools)
 * A C++ compiler
 * A Fortran compiler
 
