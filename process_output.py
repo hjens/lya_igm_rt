@@ -52,15 +52,15 @@ def get_trans_frac_in_chunks(transmissions_file, line_model,
     # The output files can be very large, and need to be read in chunks
     fractions_out = []
     with open(transmissions_file, 'rb') as f:
-        recsize, n_rec, n_los = read_transmissions_header(f, specres)
+        record_size, n_records, n_los = read_transmissions_header(f, specres)
 
         # Find the number of chunks to use when reading the file
         if n_chunks is None:
             n_chunks = get_good_n_chunks(n_los=n_los)
 
-        chunk_size = recsize/n_chunks
+        chunk_size = record_size/n_chunks
         assert np.mod(chunk_size, specres) == 0
-        assert n_rec == 1
+        assert n_records == 1
 
         # Read each record
         los_idx = 0
@@ -140,20 +140,3 @@ def read_transmissions_header(f, specres):
     ifrac = n_los/n_rec
     recsize = ifrac*specres
     return recsize, n_rec, n_los
-
-
-# ---------- TEST ----------------------
-if __name__ == '__main__':
-    import run_rt
-    import pylab as pl
-    params = run_rt.get_default_params()
-    halo_masses = np.array([10.0, 10.5, 11.0])
-    fractions = get_trans_frac_in_chunks('sample_transmission.bin',
-                                         params_dict=params,
-                                         line_model=sm.line_model_gmg,
-                                         halo_masses=halo_masses)
-    print fractions
-    wavel, tau = get_tau('sample_transmission.bin', params)
-    for i in range(tau.shape[0]):
-        pl.plot(wavel, np.exp(-tau[i, :]))
-    pl.show()
