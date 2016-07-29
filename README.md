@@ -20,7 +20,8 @@ each halo. For more information about how these calculations
 are done, see Laursen 2010 (link above).
 
 Given the Lyman-alpha transmission functions, one can then
-calculate the actual transmitted Lyman-alpha line shape,
+calculate the actual transmitted Lyman-alpha line shape, and
+transmitted fraction of Lyman-alpha photons,
 given some assumed intrinsic line shape.
 
 Package contents
