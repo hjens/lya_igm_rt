@@ -105,17 +105,17 @@ def get_tau(transmissions_file, params_dict):
     wavel = np.linspace(params_dict['wavel_lower'],
                         params_dict['wavel_upper'], specres)
     with open(transmissions_file, 'rb') as f:
-        recsize, n_rec, n_los = read_transmissions_header(f, specres)
+        record_size, n_records, n_los = read_transmissions_header(f, specres)
 
         tau = np.zeros(n_los*specres, dtype='float32')
-        for i in range(n_rec):
-            _ = read_int(f)
-            if i < n_rec-1:
-                tau[i*recsize:(i+1)*recsize] = np.fromfile(f, dtype='float32',
-                                                           count=recsize)
+        for i in range(n_records):
+            _ = read_int(f)  # FORTRAN record separators
+            if i < n_records-1:
+                tau[i*record_size:(i+1)*record_size] = np.fromfile(f, dtype='float32',
+                                                                   count=record_size)
             else:
-                tau[i*recsize:] = np.fromfile(f, dtype='float32',
-                                              count=n_los*specres-i*recsize)
+                tau[i*record_size:] = np.fromfile(f, dtype='float32',
+                                                  count=n_los*specres-i*record_size)
             _ = read_int(f)
     tau[tau != tau] = 1e10  # Try to prevent numerical problems
     tau[tau < 0] = 0.
@@ -130,13 +130,14 @@ def read_transmissions_header(f, specres):
 
     :param f: File object
     :param specres: Spectral resolution
-    :return: recsize, n_rec, n_los
+    :return: recsize, n_records, n_los
     """
+    # Read the FORTRAN record separator
     _ = read_int(f)
-    n_rec = read_int(f)
+    n_records = read_int(f)
     n_los = read_int(f)
     _ = read_int(f)
 
-    ifrac = n_los/n_rec
+    ifrac = n_los/n_records
     recsize = ifrac*specres
-    return recsize, n_rec, n_los
+    return recsize, n_records, n_los
