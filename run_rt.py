@@ -151,10 +151,11 @@ def run_postprocessing(params_dict):
                                          params_dict('fractions_output'))
     np.savetxt(output_file_fractions, fractions)
     # Calculate tau as a function of wavelength and save to output file
-    _, tau = get_tau(params_dict['raw_output'], params_dict)
-    output_file_tau = os.path.join(params_dict['output_dir'],
-                                   params_dict['tau_output'])
-    np.savetxt(output_file_tau, tau)
+    if params_dict['tau_output']:
+        _, tau = get_tau(params_dict['raw_output'], params_dict)
+        output_file_tau = os.path.join(params_dict['output_dir'],
+                                       params_dict['tau_output'])
+        np.savetxt(output_file_tau, tau)
 
 
 def read_params_from_file(params_file, add_defaults=True):

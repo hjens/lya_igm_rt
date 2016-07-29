@@ -109,6 +109,25 @@ To see the format of this dictionary, look at the function
 `get_default_params` in `run_rt.py`.
 
 
+Output
+------
+If the full pipeline is run, the output will be placed in the specified
+`output_dir`. There will be three output files:
+
+* A raw output file from SimpleTransfer containing tau as a function
+of wavelength for each sightline.
+* A text version of the same file (`tau_output`) if specified. This file
+can be read using `np.loadtxt()`, which will give a matrix containing
+tau as a function of wavelength with dimensions (n_los, n_spec_bins).
+The wavelength bins can be calculated using:
+```
+np.linspace(wavel_lower, wavel_upper, specres_bins)
+```
+* A text file containing the transmitted fractions, assuming the supplied
+intrinsic line model. There will be one fraction for each sightline for
+each halo, in the same order as the halo input file.
+
+
 Configuration
 =============
 Parameters
@@ -133,7 +152,8 @@ file.
 * `fractions_output` - The name of the file containing
 transmitted LyA fractions, from `process_output.py` (will be placed in `output_dir`).
 * `tau_output` - The name of the file containing tau as a function of
-wavelength for each sightline traced.
+wavelength for each sightline traced. Leave empty if you do not want this.
+The file can be very big!
 * `line_model` - The model to use for the intrinsic LyA
 emission. Default is 'gmg'. See section below for more
 information.
