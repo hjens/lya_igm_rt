@@ -5,7 +5,7 @@ import sys
 import c2raytools as c2t
 import numpy as np
 import make_galdata
-from process_output import get_trans_frac_in_chunks
+from process_output import get_trans_frac_in_chunks, get_tau
 import spectrum_models as sm
 
 # Constants for sub-directories
@@ -25,6 +25,7 @@ def get_default_params():
                 redshift=7.,
                 raw_output='transmission_out.bin',
                 fractions_output='transmitted_fractions.dat',
+                tau_output='tau.dat',
                 line_model='gmg',
                 start_dist_vr=1.5,
                 specres_bins=1500,
@@ -146,9 +147,14 @@ def run_postprocessing(params_dict):
                                          params_dict=params_dict,
                                          line_model=line_model,
                                          halo_masses=halo_masses)
-    output_file = os.path.join(params_dict['output_dir'],
-                               params_dict('fractions_output'))
-    np.savetxt(output_file, fractions)
+    output_file_fractions = os.path.join(params_dict['output_dir'],
+                                         params_dict('fractions_output'))
+    np.savetxt(output_file_fractions, fractions)
+    # Calculate tau as a function of wavelength and save to output file
+    _, tau = get_tau(params_dict['raw_output'], params_dict)
+    output_file_tau = os.path.join(params_dict['output_dir'],
+                                   params_dict['tau_output'])
+    np.savetxt(output_file_tau, tau)
 
 
 def read_params_from_file(params_file, add_defaults=True):

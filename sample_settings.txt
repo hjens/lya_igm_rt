@@ -4,6 +4,7 @@ density_file=/disk/dawn-1/garrelt/Reionization/C2Ray_WMAP5/425Mpc_WMAP5/coarser_
 xfrac_file=/disk/dawn-1/garrelt/Reionization/C2Ray_WMAP5/425Mpc_WMAP5/f2_10S_504/results/xfrac3d_8.064.bin
 redshift=8.064
 raw_output=transmission_out.bin
+tau_output='tau.dat'
 start_dist_vr=1.5
 specres_bins=1500
 wavel_lower=1180.

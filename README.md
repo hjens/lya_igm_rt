@@ -132,6 +132,8 @@ file.
 * `raw_output` - The file name of the raw output file from SimpleTransfer (will be placed in `output_dir`).
 * `fractions_output` - The name of the file containing
 transmitted LyA fractions, from `process_output.py` (will be placed in `output_dir`).
+* `tau_output` - The name of the file containing tau as a function of
+wavelength for each sightline traced.
 * `line_model` - The model to use for the intrinsic LyA
 emission. Default is 'gmg'. See section below for more
 information.
